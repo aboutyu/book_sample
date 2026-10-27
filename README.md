@@ -1,6 +1,6 @@
 # 하나의 서비스로 배우는 풀스택 개발
 
-> **기획부터 데이터베이스, API, 웹, AI 연동, 배포까지 하나의 서비스를 직접 만들어보는 풀스택 개발 입문 프로젝트**
+> **기획부터 데이터베이스, API, 웹, 모바일, AI 연동, 배포까지 하나의 서비스를 직접 만들어보는 풀스택 개발 입문 프로젝트**
 
 이 저장소는 개발 입문서 **《하나의 서비스로 배우는 풀스택 개발》**(가제)의 예제 프로젝트입니다.
 
@@ -10,31 +10,23 @@
 
 ## 1. 무엇을 만드는 프로젝트인가요?
 
-사용자가 자신의 **몸무게와 음식 기록을 관리하고, AI를 이용해 음식의 예상 칼로리를 확인하거나 간단한 대화를 할 수 있는 웹 서비스**를 만듭니다.
+사용자가 자신의 **몸무게와 음식 기록을 관리하고, AI를 이용해 음식의 예상 칼로리를 확인하거나 간단한 대화를 할 수 있는 서비스**를 만듭니다.
 
 책과 예제 코드를 따라가면서 다음 흐름을 경험합니다.
 
 ```text
 사용자
   ↓
-Next.js 웹 서비스
+React 웹 (frontend)  /  Flutter 앱 (mobile)
   ↓ REST API
-NestJS API 서버
+FastAPI API 서버 (backend)
   ↓
-MySQL 데이터베이스
-
-NestJS API 서버
-  ↓
-Ollama 또는 Gemini
-  ↓
-AI 기능
+PostgreSQL 데이터베이스
 ```
-
-최종적으로 프론트엔드는 **Vercel**, API 서버는 **AWS**에 배포하는 구성을 목표로 합니다.
 
 ---
 
-## 2. 주요 기능
+## 2. 주요 기능 (구현 예정)
 
 - 회원가입 및 로그인
 - JWT 기반 인증
@@ -43,79 +35,72 @@ AI 기능
 - Swagger를 이용한 API 확인
 - AI 기반 음식 칼로리 추정
 - LLM 채팅
-- 로컬 Ollama 연동
-- Gemini API 연동
-- Vercel 프론트엔드 배포
-- AWS 백엔드 배포
 
 > CRUD는 Create, Read, Update, Delete의 약자로 데이터를 등록하고, 조회하고, 수정하고, 삭제하는 기본 기능을 의미합니다.
 
 ---
 
-## 3. 기술 스택
+## 3. 기술 스택과 버전
 
-### Frontend
+예제는 아래 버전을 기준으로 작성하고 확인했습니다. 같은 메이저 버전이라면 대부분 그대로 동작합니다.
 
-- Next.js
-- React
-- TypeScript
+### Backend (`backend/`)
 
-### Backend
+| 항목 | 버전 |
+|---|---|
+| Python | 3.13 이상 (확인: 3.13.5) |
+| uv (패키지/가상환경 관리) | 0.12.15 |
+| FastAPI | 0.162.0 |
+| Uvicorn | 0.54.0 |
 
-- Node.js
-- NestJS
-- TypeScript
-- Swagger
-- JWT
+### Frontend (`frontend/`)
+
+| 항목 | 버전 |
+|---|---|
+| Node.js | 24.14.1 |
+| npm | 11.21.1 |
+| React | 19.3.1 |
+| TypeScript | 6.0.3 |
+| Vite | 8.3.5 |
+
+### Mobile (`mobile/`)
+
+| 항목 | 버전 |
+|---|---|
+| Flutter | 3.47.8 (stable) |
+| Dart | 3.13.7 |
 
 ### Database
 
-- MySQL
-- Docker
-
-### AI
-
-개발 환경에서는 로컬 LLM을 경험하기 위해 Ollama를 사용할 수 있습니다.
-
-- Ollama
-- Gemini API
-
-### Deployment
-
-- GitHub
-- AWS
-- Vercel
+| 항목 | 버전 |
+|---|---|
+| PostgreSQL | 17.11 |
 
 ---
 
 ## 4. 프로젝트 폴더 구조
 
-예제 프로젝트는 다음과 같은 형태를 기준으로 구성합니다.
-
 ```text
-fullstack-service/
-├── backend/                 # NestJS API 서버
+book_sample/
+├── backend/          # FastAPI API 서버 (Python, uv)
+│   ├── main.py
+│   ├── pyproject.toml
+│   └── uv.lock
+│
+├── frontend/         # React 웹 (TypeScript, Vite)
 │   ├── src/
-│   │   ├── auth/
-│   │   ├── users/
-│   │   ├── weights/
-│   │   ├── foods/
-│   │   ├── ai/
-│   │   └── main.ts
-│   ├── .env.example
+│   ├── public/
+│   ├── index.html
 │   ├── package.json
-│   └── README.md
+│   └── vite.config.ts
 │
-├── frontend/                # Next.js 웹 서비스
-│   ├── app/
-│   ├── components/
+├── mobile/           # Flutter 앱 (Dart)
 │   ├── lib/
-│   ├── .env.example
-│   ├── package.json
-│   └── README.md
+│   ├── test/
+│   ├── android/ ios/ web/ windows/ macos/ linux/
+│   └── pubspec.yaml
 │
-├── docker-compose.yml       # MySQL / Ollama 실행
-├── .gitignore
+├── writing/          # 집필 원고
 └── README.md
 ```
 
@@ -127,256 +112,125 @@ fullstack-service/
 
 ## 5. 준비해야 할 프로그램
 
-예제를 실행하기 전에 다음 프로그램을 설치합니다.
+| 프로그램 | 용도 | 설치 확인 명령 |
+|---|---|---|
+| Git | 저장소 내려받기 | `git --version` |
+| Python 3.13+ | Backend | `python --version` |
+| uv | Backend 패키지 관리 | `uv --version` |
+| Node.js / npm | Frontend | `node --version` / `npm --version` |
+| Flutter SDK | Mobile | `flutter --version` |
+| PostgreSQL | Database | `psql --version` |
 
-### 필수
-
-- Node.js
-- npm
-- Docker Desktop
-- Git
-
-### 선택
-
-로컬 AI 실습을 진행할 경우 Ollama가 필요합니다.
-
-다만 이 프로젝트에서는 가능하면 Docker를 통해 Ollama를 실행하여 환경 차이를 줄이는 방식을 사용합니다.
-
----
-
-## 6. 저장소 내려받기
-
-터미널에서 다음 명령어를 실행합니다.
-
-```bash
-git clone <YOUR_REPOSITORY_URL>
-cd fullstack-service
-```
-
-`<YOUR_REPOSITORY_URL>` 부분에는 실제 GitHub 저장소 주소를 입력합니다.
-
----
-
-# 데이터베이스 실행
-
-## 7. MySQL 실행하기
-
-프로젝트 루트에서 Docker Compose를 이용해 MySQL을 실행합니다.
-
-```bash
-docker compose up -d mysql
-```
-
-정상적으로 실행되었는지 확인합니다.
-
-```bash
-docker compose ps
-```
-
-예제 프로젝트에서 사용하는 기본 포트는 다음과 같습니다.
-
-| 서비스 | 기본 포트 |
-|---|---:|
-| Next.js | 3000 |
-| NestJS | 3001 |
-| MySQL | 3306 |
-| Ollama | 11434 |
-
-> 이미 해당 포트를 사용하는 프로그램이 있다면 포트 번호를 변경해야 할 수 있습니다.
-
----
-
-## 8. 데이터베이스 기본 설정
-
-예제에서는 다음과 같은 데이터베이스 설정을 기준으로 설명합니다. 아래 값은 루트 `docker-compose.yml`에 설정된 로컬 개발용 기본값입니다.
-
-```text
-HOST=localhost
-PORT=3306
-DATABASE=fullstack_service
-USER=root
-PASSWORD=rootpassword
-```
-
-실제 배포 환경에서는 반드시 다른 비밀번호를 사용하고, 실제 비밀번호는 GitHub에 올리지 마세요.
-
-비밀번호, API Key, JWT Secret과 같은 값은 `.env` 파일로 관리합니다.
-
----
-
-# 백엔드 실행
-
-## 9. Backend 패키지 설치
-
-```bash
-cd backend
-npm install
-```
-
----
-
-## 10. Backend 환경변수 설정
-
-`backend/.env.example` 파일을 복사하여 `.env` 파일을 만듭니다.
+uv는 다음 명령으로 설치할 수 있습니다.
 
 macOS / Linux:
 
 ```bash
-cp .env.example .env
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
 Windows PowerShell:
 
 ```powershell
-Copy-Item .env.example .env
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
-예시는 다음과 같습니다.
-
-```env
-PORT=3001
-
-CORS_ORIGIN=
-
-DB_HOST=localhost
-DB_PORT=3306
-DB_USERNAME=root
-DB_PASSWORD=rootpassword
-DB_DATABASE=fullstack_service
-
-JWT_SECRET=change_this_secret
-
-AI_PROVIDER=ollama
-
-OLLAMA_BASE_URL=http://localhost:11434
-OLLAMA_MODEL=gemma3
-
-GEMINI_API_KEY=
-GEMINI_MODEL=gemini-2.0-flash
-```
-
-`CORS_ORIGIN`은 로컬 개발에서는 비워두면 됩니다 (모든 출처 허용). 배포 시 설정 방법은 아래 "배포" 절을 참고하세요.
-
-> `.env` 파일은 저장소에 커밋하지 않습니다.
+Flutter 설치 후에는 `flutter doctor`로 개발 환경을 점검합니다.
 
 ---
 
-## 11. Backend 실행
-
-개발 모드로 NestJS 서버를 실행합니다.
+## 6. 저장소 내려받기
 
 ```bash
-npm run start:dev
-```
-
-정상적으로 실행되면 기본적으로 다음 주소에서 API 서버에 접근할 수 있습니다.
-
-```text
-http://localhost:3001
+git clone https://github.com/aboutyu/book_sample.git
+cd book_sample
 ```
 
 ---
 
-## 12. Swagger 확인
+## 7. 데이터베이스 (PostgreSQL)
 
-Swagger를 적용한 경우 브라우저에서 다음 주소를 엽니다.
+예제는 로컬 PostgreSQL의 `postgres` 데이터베이스 안에 `book_sample` 스키마를 만들어 사용합니다. 접속 계정은 실습용 `test` / `test`입니다.
 
-```text
-http://localhost:3001/api
+| 항목 | 값 |
+|---|---|
+| HOST | localhost |
+| PORT | 5432 |
+| DATABASE | postgres |
+| SCHEMA | book_sample |
+| USER | test |
+| PASSWORD | test |
+
+관리자 계정으로 접속해서 스키마와 계정을 만듭니다.
+
+```sql
+CREATE SCHEMA IF NOT EXISTS book_sample;
+
+CREATE ROLE test LOGIN PASSWORD 'test';
+GRANT CONNECT ON DATABASE postgres TO test;
+GRANT USAGE, CREATE ON SCHEMA book_sample TO test;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA book_sample TO test;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA book_sample TO test;
+ALTER ROLE test SET search_path = book_sample;
 ```
 
-Swagger에서는 구현된 API 목록을 확인하고 직접 요청을 테스트할 수 있습니다.
+> `test` / `test`는 로컬 실습 전용입니다. 실제 배포 환경에서는 반드시 다른 계정과 비밀번호를 사용하세요.
 
-현재까지 구현된 API는 다음과 같습니다.
+---
 
-```text
-POST   /auth/register    회원가입
-POST   /auth/login       로그인 (JWT 발급)
-
-GET    /weights          내 몸무게 기록 목록 조회 (인증 필요)
-POST   /weights          몸무게 기록 등록 (인증 필요)
-PATCH  /weights/:id      몸무게 기록 수정 (본인 소유만 가능)
-DELETE /weights/:id      몸무게 기록 삭제 (본인 소유만 가능)
-
-GET    /foods            내 음식 기록 목록 조회 (인증 필요)
-POST   /foods            음식 기록 등록 (인증 필요)
-PATCH  /foods/:id        음식 기록 수정 (본인 소유만 가능)
-DELETE /foods/:id        음식 기록 삭제 (본인 소유만 가능)
-
-POST   /ai/estimate-calories   AI 기반 음식 칼로리 추정 (인증 필요)
-POST   /ai/chat                LLM과 간단한 대화 (인증 필요)
-```
-
-AI API 사용법은 아래 "AI 기능 실행" 절에서 자세히 다룹니다.
-
-`/weights`, `/foods` API는 로그인 후 발급받은 `accessToken`을 `Authorization: Bearer <token>` 헤더에 담아야 호출할 수 있습니다. 다른 사용자의 기록은 조회/수정/삭제할 수 없습니다.
-
-터미널에서 직접 호출해볼 수도 있습니다.
+## 8. Backend 실행 (FastAPI + uv)
 
 ```bash
-# 회원가입
-curl -X POST http://localhost:3001/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{"email":"test@example.com","password":"password123"}'
+cd backend
+uv sync
+```
 
-# 로그인 (응답의 accessToken을 이후 인증이 필요한 API에서 사용합니다)
-curl -X POST http://localhost:3001/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"test@example.com","password":"password123"}'
+`uv sync`는 `.venv` 가상환경을 만들고 `pyproject.toml`에 적힌 패키지를 설치합니다. 처음 한 번만 실행하면 되고, 패키지가 바뀌었을 때 다시 실행합니다.
 
-# 몸무게 기록 등록 (accessToken 필요)
-curl -X POST http://localhost:3001/weights \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <accessToken>" \
-  -d '{"weight":68.5,"recordedAt":"2026-08-29"}'
+개발 서버를 실행합니다. `--reload` 옵션을 주면 코드를 저장할 때마다 서버가 자동으로 다시 시작됩니다 (hot reload).
 
-# 음식 기록 등록 (accessToken 필요)
-curl -X POST http://localhost:3001/foods \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <accessToken>" \
-  -d '{"name":"김치찌개","calories":350,"eatenAt":"2026-08-29"}'
+```bash
+uv run uvicorn main:app --reload
+```
+
+또는 `main.py`를 직접 실행해도 같은 설정(hot reload, 8000 포트)으로 서버가 뜹니다.
+
+```bash
+uv run main.py
+```
+
+정상적으로 실행되면 다음 주소에서 확인할 수 있습니다.
+
+| 주소 | 내용 |
+|---|---|
+| http://127.0.0.1:8000 | API 서버 |
+| http://127.0.0.1:8000/docs | Swagger 문서 (API 목록 확인 및 테스트) |
+| http://127.0.0.1:8000/redoc | ReDoc 문서 |
+
+포트를 바꾸려면 `--port` 옵션을 사용합니다.
+
+```bash
+uv run uvicorn main:app --reload --port 8001
+```
+
+새 패키지가 필요하면 `uv add`로 추가합니다. `pyproject.toml`과 `uv.lock`이 함께 갱신됩니다.
+
+```bash
+uv add sqlalchemy
 ```
 
 ---
 
-# 프론트엔드 실행
+## 9. Frontend 실행 (React + Vite)
 
-## 13. Frontend 패키지 설치
-
-새 터미널을 열고 프로젝트의 frontend 폴더로 이동합니다.
+새 터미널을 열고 frontend 폴더로 이동해 패키지를 설치합니다.
 
 ```bash
 cd frontend
 npm install
 ```
 
----
-
-## 14. Frontend 환경변수 설정
-
-`frontend/.env.example` 파일을 `.env.local`로 복사합니다.
-
-macOS / Linux:
-
-```bash
-cp .env.example .env.local
-```
-
-Windows PowerShell:
-
-```powershell
-Copy-Item .env.example .env.local
-```
-
-예:
-
-```env
-NEXT_PUBLIC_API_URL=http://localhost:3001
-```
-
----
-
-## 15. Frontend 실행
+개발 서버를 실행합니다. Vite 개발 서버도 코드를 저장하면 화면이 바로 갱신됩니다.
 
 ```bash
 npm run dev
@@ -385,555 +239,108 @@ npm run dev
 브라우저에서 다음 주소를 엽니다.
 
 ```text
-http://localhost:3000
+http://localhost:5173
 ```
 
-정상적으로 실행되면 웹 화면에서 로그인하고 몸무게와 음식 기록 기능을 사용할 수 있습니다.
+그 밖의 명령은 다음과 같습니다.
 
-현재까지 구현된 화면은 다음과 같습니다.
-
-```text
-/           홈 (로그인 상태에 따라 다른 버튼 표시)
-/register   회원가입
-/login      로그인
-/weights    몸무게 기록 조회/등록/수정/삭제 (로그인 필요)
-/foods      음식 기록 조회/등록/수정/삭제 (로그인 필요)
-/calories   AI 음식 칼로리 추정 (로그인 필요)
-/chat       LLM 채팅 (로그인 필요)
-```
-
-로그인하지 않은 상태로 위 화면에 접근하면 자동으로 `/login`으로 이동합니다. `/calories`, `/chat`은 백엔드의 Ollama/Gemini 연동이 필요하므로, 아래 "AI 기능 실행" 절을 먼저 따라 백엔드를 준비한 뒤 사용하세요.
+| 명령 | 내용 |
+|---|---|
+| `npm run build` | 배포용 빌드 (`dist/` 폴더 생성) |
+| `npm run preview` | 빌드 결과를 로컬에서 미리 보기 |
+| `npm run lint` | ESLint 코드 검사 |
 
 ---
 
-# AI 기능 실행
+## 10. Mobile 실행 (Flutter)
 
-## 16. Ollama 실행하기
-
-로컬 LLM 실습에서는 Ollama를 사용합니다.
-
-프로젝트 루트의 `docker-compose.yml`에 Ollama 서비스가 포함되어 있습니다. 다음 명령어로 실행합니다.
+새 터미널을 열고 mobile 폴더로 이동해 패키지를 설치합니다.
 
 ```bash
-docker compose up -d ollama
+cd mobile
+flutter pub get
 ```
 
-실행 상태를 확인합니다.
+실행할 수 있는 기기(에뮬레이터, 연결된 휴대폰, 브라우저 등)를 확인합니다.
 
 ```bash
-docker compose ps
+flutter devices
 ```
 
----
-
-## 17. Ollama 모델 준비
-
-예제에서 사용할 모델을 내려받습니다.
+앱을 실행합니다. 기기를 지정하지 않으면 실행 가능한 기기 중에서 고르라고 안내합니다.
 
 ```bash
-docker compose exec ollama ollama pull gemma3
+flutter run
 ```
 
-또는 Ollama를 로컬에 직접 설치했다면 다음과 같이 실행할 수 있습니다.
+기기를 지정하려면 `-d` 옵션을 사용합니다.
 
 ```bash
-ollama pull gemma3
+flutter run -d chrome           # 웹 브라우저
+flutter run -d emulator-5554    # Android 에뮬레이터 (flutter devices에 나온 ID)
 ```
 
-모델 이름은 책과 저장소 버전에 따라 변경될 수 있습니다.
+실행 중인 터미널에서 다음 키로 변경 사항을 반영할 수 있습니다.
 
-Backend 서버(`npm run start:dev`)를 실행한 상태에서 다음과 같이 AI API를 직접 호출해볼 수 있습니다. `accessToken`은 `/auth/login` 응답에서 받은 값입니다.
+| 키 | 내용 |
+|---|---|
+| `r` | Hot reload (상태를 유지한 채 코드 반영) |
+| `R` | Hot restart (앱을 처음부터 다시 시작) |
+| `q` | 종료 |
 
-```bash
-# 음식 칼로리 추정
-curl -X POST http://localhost:3001/ai/estimate-calories \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <accessToken>" \
-  -d '{"foodName":"김치찌개 1인분"}'
-
-# LLM 채팅
-curl -X POST http://localhost:3001/ai/chat \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <accessToken>" \
-  -d '{"message":"오늘 저녁 뭐 먹을지 추천해줘"}'
-```
-
-칼로리 추정 응답은 다음과 같은 형태이며, AI가 추정한 값이므로 실제 영양정보와 다를 수 있습니다.
-
-```json
-{
-  "foodName": "김치찌개 1인분",
-  "estimatedCalories": 380,
-  "unit": "kcal",
-  "note": "육류 양과 김치의 양에 따라 달라질 수 있는 추정값입니다."
-}
-```
-
-Ollama 서버가 꺼져 있거나 응답을 처리할 수 없는 경우, 서버가 멈추지 않고 다음과 같은 오류 응답을 반환합니다.
-
-```json
-{ "statusCode": 503, "message": "AI 서버(Ollama)에 연결할 수 없습니다." }
-```
-
-> Ollama를 처음 실행한 직후에는 모델을 메모리에 올리는 데 시간이 걸려 첫 요청이 평소보다 오래 걸릴 수 있습니다 (CPU 환경 기준 최대 1분 정도).
-
----
-
-## 18. Gemini 사용하기
-
-배포 환경에서는 로컬 Ollama 대신 Gemini API를 사용할 수 있습니다.
-
-Backend의 `.env` 파일을 다음과 같이 설정합니다.
-
-```env
-AI_PROVIDER=gemini
-GEMINI_API_KEY=your_gemini_api_key
-GEMINI_MODEL=gemini-2.0-flash
-```
-
-그리고 서버를 다시 실행합니다.
-
-```bash
-npm run start:dev
-```
-
-> API Key는 GitHub 저장소에 절대 업로드하지 마세요.
+> Windows 데스크톱 앱(`-d windows`)으로 실행하려면 Visual Studio의 "Desktop development with C++" 구성 요소가 필요합니다. Android, 웹 실행에는 필요하지 않습니다.
 
 ---
 
 # 전체 실행 순서
 
-처음 프로젝트를 실행한다면 다음 순서로 진행하는 것을 권장합니다.
-
-```text
-1. Git 저장소 Clone
-        ↓
-2. Docker로 MySQL 실행
-        ↓
-3. Backend 환경변수 설정
-        ↓
-4. NestJS 실행
-        ↓
-5. Swagger에서 API 확인
-        ↓
-6. Frontend 환경변수 설정
-        ↓
-7. Next.js 실행
-        ↓
-8. 웹에서 로그인 / CRUD 확인
-        ↓
-9. Ollama 실행
-        ↓
-10. AI 기능 확인
-```
-
-터미널 기준으로 정리하면 다음과 같습니다.
-
-### Terminal 1 — Database / AI
+터미널을 여러 개 열어 각각 실행합니다.
 
 ```bash
-docker compose up -d mysql ollama
-```
-
-### Terminal 2 — Backend
-
-```bash
+# Terminal 1 — Backend
 cd backend
-npm install
-npm run start:dev
-```
+uv run uvicorn main:app --reload
 
-### Terminal 3 — Frontend
-
-```bash
+# Terminal 2 — Frontend
 cd frontend
-npm install
 npm run dev
+
+# Terminal 3 — Mobile
+cd mobile
+flutter run
 ```
 
-그리고 브라우저에서 다음 주소를 확인합니다.
-
-```text
-Frontend
-http://localhost:3000
-
-Backend
-http://localhost:3001
-
-Swagger
-http://localhost:3001/api
-```
-
----
-
-# 예제 서비스 사용 흐름
-
-## 19. 서비스 동작 확인
-
-전체 프로젝트가 실행되었다면 다음 순서로 테스트합니다.
-
-### 1단계. 회원가입 / 로그인
-
-사용자를 생성하고 로그인합니다.
-
-```text
-사용자
-  ↓
-Next.js
-  ↓
-NestJS Auth API
-  ↓
-MySQL
-```
-
-로그인에 성공하면 인증에 사용할 JWT를 발급받습니다.
-
----
-
-### 2단계. 몸무게 등록
-
-웹 화면에서 몸무게를 입력합니다.
-
-```text
-80.5 kg
-```
-
-요청 흐름:
-
-```text
-Next.js
-   ↓
-POST /weights
-   ↓
-NestJS
-   ↓
-MySQL
-```
-
----
-
-### 3단계. 음식 등록
-
-예:
-
-```text
-김치찌개
-공기밥
-계란후라이
-```
-
-음식 기록은 API를 통해 MySQL에 저장됩니다.
-
----
-
-### 4단계. AI 칼로리 추정
-
-사용자가 입력한 음식 정보를 LLM에 전달하여 예상 칼로리를 계산합니다.
-
-```text
-사용자 입력
-   ↓
-Next.js
-   ↓
-NestJS
-   ↓
-Ollama / Gemini
-   ↓
-AI 응답
-```
-
-이 예제를 통해 일반적인 CRUD 기능과 AI 기능이 하나의 서비스 안에서 어떻게 연결되는지 확인합니다.
-
----
-
-# Docker 명령어
-
-## 20. 컨테이너 상태 확인
-
-```bash
-docker compose ps
-```
-
-## 21. 로그 확인
-
-```bash
-docker compose logs
-```
-
-특정 서비스만 확인하려면:
-
-```bash
-docker compose logs mysql
-```
-
-```bash
-docker compose logs ollama
-```
-
-## 22. 컨테이너 중지
-
-```bash
-docker compose stop
-```
-
-## 23. 컨테이너 다시 시작
-
-```bash
-docker compose start
-```
-
-## 24. 컨테이너 종료 및 제거
-
-```bash
-docker compose down
-```
-
-데이터 볼륨까지 제거하려면 다음 명령을 사용할 수 있습니다.
-
-```bash
-docker compose down -v
-```
-
-> `-v` 옵션을 사용하면 데이터베이스 데이터가 삭제될 수 있으므로 주의하세요.
+| 서비스 | 기본 주소 |
+|---|---|
+| Backend (FastAPI) | http://127.0.0.1:8000 |
+| Frontend (Vite) | http://localhost:5173 |
+| PostgreSQL | localhost:5432 |
 
 ---
 
 # 문제 해결
 
-## 25. 3000 포트가 이미 사용 중입니다
+## 포트가 이미 사용 중입니다
 
-Next.js 기본 포트인 3000번을 다른 프로그램이 사용하고 있을 수 있습니다.
-
-다른 포트로 실행할 수 있습니다.
+다른 프로그램이 같은 포트를 쓰고 있으면 서버가 시작되지 않습니다. 이미 띄워둔 서버가 있는지 확인하고 종료하거나, 다른 포트로 실행합니다.
 
 ```bash
-npm run dev -- -p 3002
+uv run uvicorn main:app --reload --port 8001   # Backend
+npm run dev -- --port 5174                     # Frontend
 ```
 
----
+## `flutter pub get`이 SDK 버전 오류로 실패합니다
 
-## 26. 3001 포트가 이미 사용 중입니다
-
-Backend의 `.env` 파일에서 포트를 변경합니다.
-
-```env
-PORT=3002
-```
-
-이 경우 Frontend의 API 주소도 함께 변경해야 합니다.
-
-```env
-NEXT_PUBLIC_API_URL=http://localhost:3002
-```
-
----
-
-## 27. MySQL에 연결할 수 없습니다
-
-먼저 컨테이너가 실행 중인지 확인합니다.
+`pubspec.yaml`이 요구하는 Dart 버전보다 설치된 Flutter SDK가 오래된 경우입니다. Flutter를 최신 버전으로 올립니다.
 
 ```bash
-docker compose ps
+flutter upgrade
 ```
 
-그 다음 Backend의 `.env` 설정을 확인합니다.
+## VS Code에서 빨간 줄(오류 표시)이 사라지지 않습니다
 
-```env
-DB_HOST=localhost
-DB_PORT=3306
-DB_USERNAME=root
-DB_PASSWORD=...
-DB_DATABASE=fullstack_service
-```
-
----
-
-## 28. Ollama에 연결할 수 없습니다
-
-Ollama 실행 상태를 확인합니다.
-
-```bash
-docker compose ps
-```
-
-그리고 Backend 설정을 확인합니다.
-
-```env
-OLLAMA_BASE_URL=http://localhost:11434
-```
-
-Docker 컨테이너 내부에서 다른 컨테이너의 Ollama에 접근하는 구조라면 주소가 `localhost`가 아니라 Docker 서비스 이름으로 변경될 수 있습니다.
-
-예:
-
-```env
-OLLAMA_BASE_URL=http://ollama:11434
-```
-
-실제 설정은 프로젝트의 `docker-compose.yml`을 기준으로 확인하세요.
-
----
-
-## 29. 환경변수를 수정했는데 반영되지 않습니다
-
-개발 서버를 종료한 뒤 다시 실행합니다.
-
-Backend:
-
-```bash
-npm run start:dev
-```
-
-Frontend:
-
-```bash
-npm run dev
-```
-
-Next.js의 `.env.local`을 수정했다면 개발 서버를 재시작하는 것이 안전합니다.
-
----
-
-# 보안 주의사항
-
-다음 정보는 GitHub에 업로드하지 않습니다.
-
-```text
-.env
-.env.local
-API Key
-Database Password
-JWT Secret
-AWS Secret Key
-```
-
-`.gitignore` 예시는 다음과 같습니다.
-
-```gitignore
-node_modules/
-
-.env
-.env.*
-!.env.example
-
-.next/
-dist/
-
-.DS_Store
-```
-
-실제 서비스에서는 비밀번호를 코드에 직접 작성하지 말고 반드시 환경변수나 별도의 Secret 관리 기능을 사용하세요.
-
----
-
-# 배포
-
-## 30. Frontend
-
-Next.js 프론트엔드는 Vercel 배포를 기준으로 설명합니다.
-
-일반적인 흐름은 다음과 같습니다.
-
-```text
-GitHub
-  ↓
-Vercel
-  ↓
-Next.js 배포
-```
-
-배포 환경에서는 다음과 같은 환경변수를 설정합니다.
-
-```env
-NEXT_PUBLIC_API_URL=https://your-api-domain.com
-```
-
----
-
-## 31. Backend
-
-NestJS API 서버는 AWS 환경에 배포하는 것을 기준으로 설명합니다.
-
-```text
-GitHub
-  ↓
-AWS
-  ↓
-NestJS API
-  ↓
-MySQL
-```
-
-`backend/Dockerfile`을 제공합니다. AWS(App Runner, ECS, EC2 등 컨테이너를 실행할 수 있는 서비스)에 배포할 때 이 이미지를 그대로 사용할 수 있습니다.
-
-```bash
-cd backend
-docker build -t fullstack-service-backend .
-docker run -p 3001:3001 --env-file .env fullstack-service-backend
-```
-
-배포 환경에서는 다음 환경변수를 함께 설정합니다.
-
-```env
-CORS_ORIGIN=https://your-frontend-domain.vercel.app
-```
-
-`CORS_ORIGIN`을 비워두면(로컬 개발 기본값) 모든 출처의 요청을 허용하지만, 배포 환경에서는 프론트엔드 도메인만 명시해 다른 출처에서의 API 호출을 차단하는 것을 권장합니다.
-
-구체적인 AWS 구성(App Runner, ECS, RDS 연결 등)과 배포 방식은 책의 배포 장에서 단계별로 다룹니다.
-
----
-
-# 학습 순서
-
-이 프로젝트는 다음 순서로 학습하는 것을 권장합니다.
-
-```text
-01. 서비스 전체 구조 이해
-02. 개발 환경과 TypeScript
-03. Docker와 MySQL
-04. 데이터베이스와 ERD
-05. REST API
-06. NestJS
-07. 로그인 / 인증
-08. CRUD API
-09. Next.js
-10. Frontend와 API 연결
-11. LLM / Prompt Engineering
-12. Ollama
-13. Gemini
-14. AWS / Vercel 배포
-```
-
----
-
-# 챕터별 코드 관리
-
-책을 집필하면서 각 장이 끝나는 시점의 소스를 별도로 확인할 수 있도록 Git Tag 또는 브랜치를 제공하는 방식을 권장합니다.
-
-예:
-
-```text
-ch03-database
-ch04-api
-ch05-frontend
-ch06-ai
-ch07-deploy
-```
-
-예를 들어 4장까지 완료된 코드를 확인하려면:
-
-```bash
-git checkout ch04-api
-```
-
-최신 코드로 돌아오려면:
-
-```bash
-git checkout main
-```
-
-이 방식은 책을 읽는 도중 코드가 꼬였을 때 해당 장의 정상 소스와 비교하는 데 유용합니다.
+- Python: 명령 팔레트(`Ctrl+Shift+P`) → "Python: Select Interpreter"에서 `backend/.venv`를 선택합니다.
+- Flutter: `flutter pub get`을 실행한 뒤 명령 팔레트 → "Dart: Restart Analysis Server"를 실행합니다.
 
 ---
 
@@ -941,9 +348,9 @@ git checkout main
 
 이 책은 개발의 전체 구조와 흐름을 이해하는 입문서이므로 다음 주제를 깊게 다루지 않습니다.
 
-- 고급 TypeScript 문법
+- 고급 Python / TypeScript / Dart 문법
 - React 렌더링 최적화
-- NestJS 내부 구조 심화
+- FastAPI 내부 구조 심화
 - 데이터베이스 튜닝
 - Kubernetes
 - 대규모 MSA
